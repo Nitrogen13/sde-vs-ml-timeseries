@@ -10,8 +10,10 @@ import scipy.constants
 import scipy.optimize
 import scipy.stats
 
+from plt_utils import save_plot
 from utils import mle_ou
 
+np.random.seed(42)
 
 class OrnsteinUhlenbeckModel:
     def __init__(
@@ -84,15 +86,41 @@ class OrnsteinUhlenbeckModel:
 # theta_b,
 # sigma) volatility
 
-# t = np.arange(0, 100, 0.01)
-# q = (0.0, 20.0, 0.1, 0.5, 1.0)
-# q = (0.0, 0.2, 0.000001, 0.02, 1.0)
-# ou = OrnsteinUhlenbeckModel(*q)
-# x = ou.path(t)
-#
-# plt.plot(t, x)
-# plt.show()
-#
+t = np.arange(0, 100, 0.01)
+
+qs = [
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-6, "theta_b": 0.5, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-5, "theta_b": 0.5, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-4, "theta_b": 0.5, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-3, "theta_b": 0.5, "sigma": 0.5},
+
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-6, "theta_b": 0.005, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-5, "theta_b": 0.005, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-4, "theta_b": 0.005, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 1.0, "theta_a": 1e-3, "theta_b": 0.005, "sigma": 0.5},
+
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-6, "theta_b": 0.5, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-5, "theta_b": 0.5, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-4, "theta_b": 0.5, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-3, "theta_b": 0.5, "sigma": 0.5},
+
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-6, "theta_b": 0.005, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-5, "theta_b": 0.005, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-4, "theta_b": 0.005, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.01, "theta_a": 1e-3, "theta_b": 0.005, "sigma": 0.5},
+]
+
+for q in qs:
+    ou = OrnsteinUhlenbeckModel(**q)
+
+    x = ou.path(t)
+
+    plt.xlabel("t")
+    plt.ylabel("S")
+    plt.plot(t, x, color="black")
+
+    save_plot(plt, "ou_lin", q)
+
 # result = mle_ou(OrnsteinUhlenbeckModel, t, x)
 # print(result.status)
 # print(result.params)

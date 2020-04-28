@@ -9,6 +9,7 @@ from lmfit import minimize, Parameters
 
 from utils import est_sigma_quadratic_variation
 
+np.random.seed(42)
 
 class VasicekModel:
     def __init__(self, s_0: float, kappa: float, theta: float, sigma: float):

@@ -10,6 +10,7 @@ from lmfit import minimize, Parameters
 from plt_utils import save_plot
 from utils import est_sigma_quadratic_variation
 
+np.random.seed(42)
 
 class VasicekModel:
     def __init__(self, s_0: float, kappa: float, theta: float, sigma: float):
@@ -90,14 +91,30 @@ def mle_ou(t, s):
 # sigma) volatility
 
 t = np.arange(0, 100, 0.01)
-q = {"s_0": 0.0, "kappa": 20, "theta": 0.05, "sigma": 0.5}
-ou = VasicekModel(**q)
 
-x = ou.path(t)
+qs = [
+{"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 2.0},
+{"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 2.0},
+{"s_0": 0.0, "kappa": 0.5, "theta": 2.0, "sigma": 2.0},
+{"s_0": 0.0, "kappa": 5.0, "theta": 2.0, "sigma": 2.0},
 
-plt.plot(t, x)
-save_plot(plt, "ou", q)
+{"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 0.5, "theta": 2.0, "sigma": 0.5},
+{"s_0": 0.0, "kappa": 5.0, "theta": 2.0, "sigma": 0.5},
+]
 
-result = mle_ou(t, x)
-print(result.status)
-print(result.params)
+for q in qs:
+    ou = VasicekModel(**q)
+
+    x = ou.path(t)
+
+    plt.xlabel("t")
+    plt.ylabel("S")
+    plt.plot(t, x, color="black")
+
+    save_plot(plt, "ou", q)
+
+# result = mle_ou(t, x)
+# print(result.status)
+# print(result.params)

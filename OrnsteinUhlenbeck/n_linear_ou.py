@@ -9,6 +9,7 @@ import numpy as np
 
 from utils import mle_ou
 
+np.random.seed(42)
 
 class OrnsteinUhlenbeckModel:
     def __init__(
