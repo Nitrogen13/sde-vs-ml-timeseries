@@ -26,12 +26,12 @@ class VasicekModel:
         assert len(t) > 1
         dt: np.array = np.diff(t)
         s = [self.s_0]
-        for t in range(len(dt)):
+        for _ in range(len(dt)):
             ds = (
-                self.kappa * (self.theta - s[t]) * dt[0]
+                self.kappa * (self.theta - s[-1]) * dt[0]
                 + self.sigma * np.sqrt(dt[0]) * np.random.normal()
             )
-            s.append(s[t] + ds)
+            s.append(s[-1] + ds)
         return s
 
     @staticmethod
@@ -90,30 +90,30 @@ def mle_ou(t, s):
 # theta, mean reversion level
 # sigma) volatility
 
-t = np.arange(0, 100, 0.01)
+# t = np.arange(0, 100, 0.01)
 
-qs = [
-{"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 2.0},
-{"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 2.0},
-{"s_0": 0.0, "kappa": 0.5, "theta": 2.0, "sigma": 2.0},
-{"s_0": 0.0, "kappa": 5.0, "theta": 2.0, "sigma": 2.0},
-
-{"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 0.5},
-{"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 0.5},
-{"s_0": 0.0, "kappa": 0.5, "theta": 2.0, "sigma": 0.5},
-{"s_0": 0.0, "kappa": 5.0, "theta": 2.0, "sigma": 0.5},
-]
-
-for q in qs:
-    ou = VasicekModel(**q)
-
-    x = ou.path(t)
-
-    plt.xlabel("t")
-    plt.ylabel("S")
-    plt.plot(t, x, color="black")
-
-    save_plot(plt, "ou", q)
+# qs = [
+# {"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 2.0},
+# {"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 2.0},
+# {"s_0": 0.0, "kappa": 0.5, "theta": 2.0, "sigma": 2.0},
+# {"s_0": 0.0, "kappa": 5.0, "theta": 2.0, "sigma": 2.0},
+#
+# {"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 0.5},
+# {"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 0.5},
+# {"s_0": 0.0, "kappa": 0.5, "theta": 2.0, "sigma": 0.5},
+# {"s_0": 0.0, "kappa": 5.0, "theta": 2.0, "sigma": 0.5},
+# ]
+#
+# for q in qs:
+#     ou = VasicekModel(**q)
+#
+#     x = ou.path(t)
+#
+#     plt.xlabel("t")
+#     plt.ylabel("S")
+#     plt.plot(t, x, color="black")
+#
+#     save_plot(plt, "ou", q)
 
 # result = mle_ou(t, x)
 # print(result.status)
