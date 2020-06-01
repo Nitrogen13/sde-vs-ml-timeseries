@@ -10,7 +10,6 @@ from lmfit import minimize, Parameters
 from plt_utils import save_plot
 from utils import est_sigma_quadratic_variation
 
-np.random.seed(42)
 
 class VasicekModel:
     def __init__(self, s_0: float, kappa: float, theta: float, sigma: float):
@@ -90,8 +89,9 @@ def mle_ou(t, s):
 # theta, mean reversion level
 # sigma) volatility
 
-# t = np.arange(0, 100, 0.01)
+t = np.arange(0, 100, 0.01)
 
+q = {"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 2.0}
 # qs = [
 # {"s_0": 0.0, "kappa": 0.005, "theta": 2.0, "sigma": 2.0},
 # {"s_0": 0.0, "kappa": 0.05, "theta": 2.0, "sigma": 2.0},

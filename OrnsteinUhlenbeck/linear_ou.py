@@ -13,7 +13,6 @@ import scipy.stats
 from plt_utils import save_plot
 from utils import mle_ou
 
-np.random.seed(42)
 
 class OrnsteinUhlenbeckModel:
     def __init__(
